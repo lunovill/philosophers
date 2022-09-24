@@ -12,20 +12,17 @@
 
 #include "list.h"
 
-t_philo	*lst_new(char **args, int set)
+t_philo	*lst_new(t_data *data)
 {
 	t_philo	*new;
 
 	new = malloc(sizeof(*new));
 	if (!new)
 		return (NULL);
-	new->time_die = ft_atoui(args[0]);
-	new->time_eat = ft_atoui(args[1]);
-	new->time_sleep = ft_atoui(args[2]);
 	new->have_eat = 0;
-	new->must_eat = set;
 	if (pthread_mutex_init(&new->fork, NULL))
 		return (ft_free(new), NULL);
+	new->data = data;
 	new->next = NULL;
 	return (new);
 }

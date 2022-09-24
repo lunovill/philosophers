@@ -4,6 +4,7 @@
 
 SRCS_DIR = sources
 SRC_FILES = chk_all\
+				ft_chktbl\
 				ft_error\
 				ft_init\
 				ft_logs\

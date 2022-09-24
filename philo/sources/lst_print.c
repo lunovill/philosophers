@@ -26,11 +26,7 @@ int	lst_print(t_table *list)
 	{
 		printf("philo n°%lu\n", list->size - i);
 		printf("id\t\t| %u\n", current->id);
-		printf("tm_to_die\t| %u\n", current->time_die);
-		printf("tm_to_eat\t| %u\n", current->time_eat);
-		printf("tm_to_sleep\t| %u\n", current->time_sleep);
 		printf("have_eat\t| %u\n", current->have_eat);
-		printf("must_eat\t| %li\n\n", current->must_eat);
 		current = current->next;
 	}
 	printf("(null)\n");

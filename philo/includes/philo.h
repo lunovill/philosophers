@@ -12,8 +12,9 @@ int			ft_error(const char *funct, const char *error, int (*close)(), void *zone)
 void		ft_logs(t_philo *philo, int set);
 t_table		*ft_init(t_table *table, char **args, int set);
 
-int			tm_toeat(t_philo *philo, struct timeval left_die);
-int			tm_tosleep(t_philo *philo, struct timeval left_die);
+int         ft_chktbl(t_philo *philo, int set);
+int			tm_toeat(t_philo *philo);
+int			tm_tosleep(t_philo *philo);
 ssize_t 	tm_gimme(struct timeval start);
 int			philosophers(t_table *table);
 

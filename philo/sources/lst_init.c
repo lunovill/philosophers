@@ -20,8 +20,8 @@ t_table	*lst_init(t_philo *init)
 	if (!list)
 		return (NULL);
 	list->first = init;
-	if (pthread_mutex_init(&list->print, NULL))
-		return (ft_free(list), NULL);
 	list->size = 1;
+	list->dead = 0;
+	list->have_eat = 0;
 	return (list);
 }

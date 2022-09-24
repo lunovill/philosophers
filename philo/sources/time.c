@@ -1,14 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   time.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lunovill <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/24 21:50:29 by lunovill          #+#    #+#             */
+/*   Updated: 2022/09/24 21:50:30 by lunovill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-static int	tm_to(t_philo *philo, unsigned int time_to, struct timeval left_die)
+static int	tm_to(t_philo *philo, unsigned int time_to)
 {
-	unsigned int	time_die;
+	unsigned int	time;
 
-	time_die = philo->time_die - tm_gimme(left_die);
-	if (time_die <= time_to)
+	time = philo->data->time_die - tm_gimme(philo->left_die);
+	if (time <= time_to)
 	{
-		usleep(time_die * 1000);
-		return (ft_logs(philo, 0), -1);
+		usleep(time * 1000);
+		return (-1);
 	}
 	else
 	{
@@ -18,23 +30,27 @@ static int	tm_to(t_philo *philo, unsigned int time_to, struct timeval left_die)
 }
 
 
-int	tm_toeat(t_philo *philo, struct timeval left_die)
+int	tm_toeat(t_philo *philo)
 {
-	ft_logs(philo, 1);
-	if (tm_to(philo, philo->time_eat, left_die) == -1)
+	if (ft_chktbl(philo, 1) == -1)
 		return (-1);
+	if (gettimeofday(&philo->left_die, NULL) == -1)
+		return (ft_error("routine", "gettimeofday error", tbl_free, NULL));
+	if (tm_to(philo, philo->data->time_eat) == -1)
+		return (ft_chktbl(philo, 0));
 	pthread_mutex_unlock(&philo->next->fork);
 	pthread_mutex_unlock(&philo->fork);
-	philo->have_eat++;
 	return (0);
 }
 
-int	tm_tosleep(t_philo *philo, struct timeval left_die)
+int	tm_tosleep(t_philo *philo)
 {
-	ft_logs(philo, 2);
-	if (tm_to(philo, philo->time_sleep, left_die) == -1)
+	if (ft_chktbl(philo, 2) == -1)
 		return (-1);
-	ft_logs(philo, 3);
+	if (tm_to(philo, philo->data->time_sleep) == -1)
+		return (ft_chktbl(philo, 0));
+	if (ft_chktbl(philo, 3) == -1)
+		return (-1);
 	return (0);
 }
 

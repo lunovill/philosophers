@@ -19,14 +19,11 @@ static int	tm_to(t_philo *philo, unsigned int time_to)
 	time = philo->data->time_die - tm_gimme(philo->left_die);
 	if (time <= time_to)
 	{
-		usleep(time * 1000);
+		ft_sleep(philo, time);
 		return (-1);
 	}
 	else
-	{
-		usleep(time_to * 1000);
-		return (0);
-	}
+		return (ft_sleep(philo, time_to));
 }
 
 int	tm_toeat(t_philo *philo)
@@ -41,8 +38,8 @@ int	tm_toeat(t_philo *philo)
 		ret = ft_chktbl(philo, 0);
 	else
 		ret = 0;
-	pthread_mutex_unlock(&philo->next->fork);
 	pthread_mutex_unlock(&philo->fork);
+	pthread_mutex_unlock(&philo->next->fork);
 	return (ret);
 }
 

@@ -25,6 +25,7 @@ int			ft_error(const char *funct, const char *error,
 void		ft_logs(t_philo *philo, int set);
 t_table		*ft_init(t_table *table, char **args, int set);
 
+int			ft_sleep(t_philo *philo, unsigned int time);
 int			ft_chktbl(t_philo *philo, int set);
 int			tm_toeat(t_philo *philo);
 int			tm_tosleep(t_philo *philo);

@@ -17,7 +17,11 @@ int	ft_chktbl(t_philo *philo, int set)
 	int				ret;
 
 	pthread_mutex_lock(&philo->data->padlock);
-	if (philo->data->table->dead)
+	if (set == -1 && philo->data->table->dead)
+		ret = -1;
+	else if (set == -1 && !philo->data->table->dead)
+		ret = 0;
+	else if (philo->data->table->dead)
 		ret = -1;
 	else if (philo->data->time_die <= tm_gimme(philo->left_die))
 	{

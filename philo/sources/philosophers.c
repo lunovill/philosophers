@@ -12,31 +12,31 @@
 
 #include "philo.h"
 
-static int	tk_afork(t_philo *philo,
-pthread_mutex_t *right, pthread_mutex_t *left)
+static int	tk_afork(t_philo *philo, pthread_mutex_t *left,
+pthread_mutex_t *right)
 {
 	if (philo->id % 2)
-		pthread_mutex_lock(right);
-	else
 		pthread_mutex_lock(left);
+	else
+		pthread_mutex_lock(right);
 	if (ft_chktbl(philo, 4) == -1)
 	{
 		if (philo->id % 2)
-			pthread_mutex_unlock(right);
-		else
 			pthread_mutex_unlock(left);
+		else
+			pthread_mutex_unlock(right);
 		return (-1);
 	}
 	if (philo->data->table->size == 1)
 		usleep(philo->data->time_die * 1000);
 	else if (philo->id % 2)
-		pthread_mutex_lock(left);
-	else
 		pthread_mutex_lock(right);
+	else
+		pthread_mutex_lock(left);
 	if (ft_chktbl(philo, 4) == -1)
 	{
-		pthread_mutex_unlock(right);
 		pthread_mutex_unlock(left);
+		pthread_mutex_unlock(right);
 		return (-1);
 	}
 	return (0);
@@ -54,19 +54,17 @@ static void	*routine(void *zone)
 	if (philo->data->must_eat == 0)
 		return (NULL);
 	if (philo->id % 2 == 0)
-	{
-		if (ft_chktbl(philo, 3) == -1)
-			return (NULL);
-		usleep(philo->data->time_eat * 1000);
-	}
+		usleep(1000);
 	while (1)
 	{
-		if (tk_afork(philo, &philo->next->fork, &philo->fork) == -1)
+		if (tk_afork(philo, &philo->fork, &philo->next->fork) == -1)
 			break ;
 		if (tm_toeat(philo) == -1)
 			break ;
 		if (tm_tosleep(philo) == -1)
 			break ;
+		if (philo->data->table->size % 2)
+			ft_sleep(philo, philo->data->time_eat);
 	}
 	return (NULL);
 }

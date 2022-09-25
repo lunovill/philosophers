@@ -27,7 +27,9 @@ pthread_mutex_t *right, pthread_mutex_t *left)
 			pthread_mutex_unlock(left);
 		return (-1);
 	}
-	if (philo->id % 2)
+	if (philo->data->table->size == 1)
+		usleep(philo->data->time_die * 1000);
+	else if (philo->id % 2)
 		pthread_mutex_lock(left);
 	else
 		pthread_mutex_lock(right);

@@ -12,7 +12,6 @@ SRC_FILES = chk_all\
 				lst_init\
 				lst_new\
 				lst_rmv\
-				lst_print\
 				main\
 				philosophers\
 				tbl_free\

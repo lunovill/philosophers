@@ -12,7 +12,8 @@
 
 #include "philo.h"
 
-static int	tk_afork(t_philo *philo, pthread_mutex_t *right, pthread_mutex_t *left)
+static int	tk_afork(t_philo *philo,
+pthread_mutex_t *right, pthread_mutex_t *left)
 {
 	if (philo->id % 2)
 		pthread_mutex_lock(right);
@@ -44,8 +45,10 @@ static void	*routine(void *zone)
 	t_philo			*philo;
 
 	philo = (t_philo *)zone;
-	if (gettimeofday(&philo->time_start, NULL) == -1 || gettimeofday(&philo->left_die, NULL) == -1)
-		return (ft_error("routine", "gettimeofday error", tbl_free, NULL), NULL);
+	if (gettimeofday(&philo->time_start, NULL) == -1
+		|| gettimeofday(&philo->left_die, NULL) == -1)
+		return (ft_error("routine", "gettimeofday error",
+				tbl_free, NULL), NULL);
 	if (philo->data->must_eat == 0)
 		return (NULL);
 	if (philo->id % 2 == 0)
@@ -59,11 +62,7 @@ static void	*routine(void *zone)
 		if (tk_afork(philo, &philo->next->fork, &philo->fork) == -1)
 			break ;
 		if (tm_toeat(philo) == -1)
-		{
-			pthread_mutex_unlock(&philo->next->fork);
-			pthread_mutex_unlock(&philo->fork);
 			break ;
-		}
 		if (tm_tosleep(philo) == -1)
 			break ;
 	}
@@ -80,12 +79,13 @@ int	philosophers(t_table *table)
 	while (i++ < table->size)
 	{
 		if (pthread_create(&philo->thread, NULL, &routine, (void *)philo))
-			return (ft_error("philosophers", "pthread_create error", tbl_free, table));
+			return (ft_error("philosophers", "pthread_create error",
+					tbl_free, table));
 		philo = philo->next;
 	}
 	philo = table->first;
 	i = 0;
-	while(i++ < table->size)
+	while (i++ < table->size)
 	{
 		pthread_join(philo->thread, NULL);
 		philo = philo->next;

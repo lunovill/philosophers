@@ -29,18 +29,21 @@ static int	tm_to(t_philo *philo, unsigned int time_to)
 	}
 }
 
-
 int	tm_toeat(t_philo *philo)
 {
+	int	ret;
+
 	if (ft_chktbl(philo, 1) == -1)
-		return (-1);
-	if (gettimeofday(&philo->left_die, NULL) == -1)
-		return (ft_error("routine", "gettimeofday error", tbl_free, NULL));
-	if (tm_to(philo, philo->data->time_eat) == -1)
-		return (ft_chktbl(philo, 0));
+		ret = -1;
+	else if (gettimeofday(&philo->left_die, NULL) == -1)
+		ret = ft_error("routine", "gettimeofday error", tbl_free, NULL);
+	else if (tm_to(philo, philo->data->time_eat) == -1)
+		ret = ft_chktbl(philo, 0);
+	else
+		ret = 0;
 	pthread_mutex_unlock(&philo->next->fork);
 	pthread_mutex_unlock(&philo->fork);
-	return (0);
+	return (ret);
 }
 
 int	tm_tosleep(t_philo *philo)
@@ -54,11 +57,12 @@ int	tm_tosleep(t_philo *philo)
 	return (0);
 }
 
-ssize_t tm_gimme(struct timeval start)
+ssize_t	tm_gimme(struct timeval start)
 {
 	struct timeval	end;
+
 	if (gettimeofday(&end, NULL) == -1)
 		return (ft_error("tm_toeat", "gettimeofday error", tbl_free, NULL));
 	return ((1e3 * ((&end)->tv_sec - (&start)->tv_sec))
-	+ (1e-3 * ((&end)->tv_usec - (&start)->tv_usec)));
+		+ (1e-3 * ((&end)->tv_usec - (&start)->tv_usec)));
 }

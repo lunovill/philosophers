@@ -31,8 +31,6 @@ int	ft_chktbl(t_philo *philo, int set)
 		ft_logs(philo, set);
 		if (set == 1 && philo->have_eat == philo->data->must_eat)
 			philo->data->table->have_eat++;
-		// else if (set == 4)
-		// 	ft_logs(philo, set);
 		ret = 0;
 	}
 	pthread_mutex_unlock(&philo->data->padlock);

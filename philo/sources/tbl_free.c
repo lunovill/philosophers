@@ -12,15 +12,15 @@
 
 #include    "philo.h"
 
-int tbl_free(t_table *table)
+int	tbl_free(t_table *table)
 {
-    if (table)
-    {
-        ft_free(table->first->data);
-        while (table->size)
-            lst_rmv(table, table->first);
-        ft_free(table);
-    }
-    table = NULL;
-    return (0);
+	if (table)
+	{
+		ft_free(table->first->data);
+		while (table->size)
+			lst_rmv(table, table->first);
+		ft_free(table);
+	}
+	table = NULL;
+	return (0);
 }

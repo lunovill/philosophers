@@ -28,28 +28,12 @@ t_data	*ft_data(char **args, ssize_t must_eat)
 	return (data);
 }
 
-t_table	*ft_init(t_table *table, char **args, int set)
+static t_table	*ft_init_philo(t_table *table, t_data *data, char *size)
 {
 	t_philo			*philo;
-	t_data			*data;
 	unsigned int	i;
 
-	if (set == 5)
-		data = ft_data(args + 1, -1);
-	else if (set == 6)
-		data = ft_data(args + 1, ft_atoui(args[4]));
-	if (!data)
-		return (ft_error("ft_init", "malloc error", tbl_free, NULL), NULL);
-	philo = lst_new(data);
-	if (!philo)
-		return (pthread_mutex_destroy(&data->padlock), ft_free(data), ft_error("ft_init", "malloc error", tbl_free, NULL), NULL);
-	philo->id = 1;
-	philo->next = philo;
-	table = lst_init(philo);
-	if (!table)
-		return (pthread_mutex_destroy(&data->padlock), ft_free(data), lst_rmv(NULL, philo), ft_error("ft_init", "malloc error", tbl_free, NULL), NULL);
-	data->table = table;
-	i = ft_atoui(args[0]) + 1;
+	i = ft_atoui(size) + 1;
 	while (--i > 1)
 	{
 		philo = lst_new(data);
@@ -59,4 +43,30 @@ t_table	*ft_init(t_table *table, char **args, int set)
 		lst_add(table, table->first, philo);
 	}
 	return (table);
+}
+
+t_table	*ft_init(t_table *table, char **args, int set)
+{
+	t_philo			*philo;
+	t_data			*data;
+
+	if (set == 5)
+		data = ft_data(args + 1, -1);
+	else if (set == 6)
+		data = ft_data(args + 1, ft_atoui(args[4]));
+	if (!data)
+		return (ft_error("ft_init", "malloc error", tbl_free, NULL), NULL);
+	philo = lst_new(data);
+	if (!philo)
+		return (pthread_mutex_destroy(&data->padlock), ft_free(data),
+			ft_error("ft_init", "malloc error", tbl_free, NULL), NULL);
+	philo->id = 1;
+	philo->next = philo;
+	table = lst_init(philo);
+	if (!table)
+		return (pthread_mutex_destroy(&data->padlock), ft_free(data),
+			lst_rmv(NULL, philo), ft_error("ft_init", "malloc error",
+				tbl_free, NULL), NULL);
+	data->table = table;
+	return (ft_init_philo(table, data, args[0]));
 }

@@ -52,18 +52,18 @@ int	tm_tosleep(t_philo *philo)
 	return (0);
 }
 
-int tm_tothink(t_philo *philo)
+int	tm_tothink(t_philo *philo)
 {
 	if (ft_chktbl(philo, 3) == -1)
 		return (-1);
 	if (philo->data->table->size % 2
 		&& philo->data->time_eat < philo->data->time_sleep
 		&& tm_to(philo, philo->data->time_sleep - philo->data->time_eat) == -1)
-				return (ft_chktbl(philo, 0));
+		return (ft_chktbl(philo, 0));
 	if (!(philo->data->table->size % 2)
 		&& philo->data->time_sleep < philo->data->time_eat
 		&& tm_to(philo, philo->data->time_eat - philo->data->time_sleep) == -1)
-				return (ft_chktbl(philo, 0));
+		return (ft_chktbl(philo, 0));
 	return (0);
 }
 

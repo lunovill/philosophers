@@ -53,19 +53,17 @@ static void	*routine(void *zone)
 				tbl_free, NULL), NULL);
 	if (philo->data->must_eat == 0)
 		return (NULL);
-	if (philo->data->table->size % 2 && philo->id == 2 && tm_to(philo, philo->data->time_eat * 2))
-			return (ft_chktbl(philo, 0), NULL);
+	if (philo->data->table->size % 2
+		&& philo->id == 2 && tm_to(philo, philo->data->time_eat * 2))
+		return (ft_chktbl(philo, 0), NULL);
 	else if (!(philo->id % 2) && tm_to(philo, philo->data->time_eat))
-			return (ft_chktbl(philo, 0), NULL);
+		return (ft_chktbl(philo, 0), NULL);
 	while (1)
 	{
-		if (tk_afork(philo, &philo->fork, &philo->next->fork) == -1)
-			break ;
-		if (tm_toeat(philo) == -1)
-			break ;
-		if (tm_tosleep(philo) == -1)
-			break ;
-		if (tm_tothink(philo) == -1)
+		if (tk_afork(philo, &philo->fork, &philo->next->fork) == -1
+			|| tm_toeat(philo) == -1
+			|| tm_tosleep(philo) == -1
+			|| tm_tothink(philo) == -1)
 			break ;
 		if (philo->data->table->size % 2)
 			ft_sleep(philo, philo->data->time_eat);

@@ -27,8 +27,10 @@ t_table		*ft_init(t_table *table, char **args, int set);
 
 int			ft_sleep(t_philo *philo, unsigned int time);
 int			ft_chktbl(t_philo *philo, int set);
+int			tm_to(t_philo *philo, unsigned int time_to);
 int			tm_toeat(t_philo *philo);
 int			tm_tosleep(t_philo *philo);
+int			tm_tothink(t_philo *philo);
 ssize_t		tm_gimme(struct timeval start);
 int			philosophers(t_table *table);
 

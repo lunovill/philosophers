@@ -54,6 +54,8 @@ t_table	*ft_init(t_table *table, char **args, int set)
 		data = ft_data(args + 1, -1);
 	else if (set == 6)
 		data = ft_data(args + 1, ft_atoui(args[4]));
+	else
+		data = NULL;
 	if (!data)
 		return (ft_error("ft_init", "malloc error", tbl_free, NULL), NULL);
 	philo = lst_new(data);
